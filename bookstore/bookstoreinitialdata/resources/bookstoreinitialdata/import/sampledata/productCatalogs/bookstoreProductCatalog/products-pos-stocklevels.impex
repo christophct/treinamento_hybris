@@ -1,0 +1,45 @@
+# -----------------------------------------------------------------------
+# [y] hybris Platform
+#
+# Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+#
+# This software is the confidential and proprietary information of SAP
+# ("Confidential Information"). You shall not disclose such Confidential
+# Information and shall use it only in accordance with the terms of the
+# license agreement you entered into with SAP.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Products Store Stock Levels into the Store
+
+# Macros / Replacement Parameter definitions
+$productCatalog=bookstoreProductCatalog
+$productCatalogName=bookstoreProductCatalog
+$vendor=bookstore
+
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+
+
+# Create some Warehouses for the Vendor
+INSERT_UPDATE Warehouse;code[unique=true];vendor(code)[default=$vendor];default[default='false']
+;SaoPaulo
+;Recife
+
+
+INSERT_UPDATE StockLevel;available;warehouse(code)[default='SaoPaulo',unique=true];inStockStatus(code)[default='notSpecified'];overSelling;preOrder;productCode[unique=true];reserved
+;8;;forceOutOfStock;0;0;10000001;0
+;7;;forceOutOfStock;0;0;10000002;0
+;9;;forceOutOfStock;0;0;10000003;0
+;0;;forceInStock;0;0;10000004;0
+;3;;forceOutOfStock;0;0;10000005;0
+;16;;forceOutOfStock;0;0;10000006;0
+;10;;forceOutOfStock;0;0;10000007;0
+;10;;forceOutOfStock;0;0;10000008;0
+
+INSERT_UPDATE StockLevel;available;warehouse(code)[default='Recife',unique=true];inStockStatus(code)[default='notSpecified'];overSelling;preOrder;productCode[unique=true];reserved
+;8;;forceOutOfStock;0;0;10000001;0
+;7;;forceOutOfStock;0;0;10000002;0
+;9;;forceOutOfStock;0;0;10000003;0
+;0;;forceInStock;0;0;10000004;0
+;3;;forceOutOfStock;0;0;10000005;0
+;16;;forceOutOfStock;0;0;10000006;0
+;10;;forceOutOfStock;0;0;10000007;0
+;10;;forceOutOfStock;0;0;10000008;0

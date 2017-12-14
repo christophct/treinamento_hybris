@@ -1,0 +1,77 @@
+$catalog-id=testCatalog
+$catalog-version=Online
+
+$testCategory0-id=testCategory0
+$testCategory1-id=testCategory1
+
+
+
+$catalogVersion=catalogversion(catalog(id[default='bookstoreProductCatalog']),version[default='Online'])[unique=true,default='bookstoreProductCatalog:Online']
+$supercategories=supercategories(code,catalogversion(catalog(id),version));
+$prices=europe1prices[translator=de.hybris.platform.europe1.jalo.impex.Europe1PricesTranslator]
+
+$approved=approvalstatus(code)[default='check']
+
+
+#$categories=target(code, $catalogversion)[unique=true]
+#$supercategories=source(code, $catalogversion)[unique=true]
+
+#INSERT_UPDATE Language;isocode[unique=true];active[default=true];name[lang=de];name[lang=en]
+#;en;;English;English
+
+#INSERT_UPDATE Unit;unitType[unique=true];code[unique=true];name[lang=de];name[lang=en];conversion;;;
+#;pieces;pieces;pieces;pieces;1
+
+#INSERT_UPDATE Currency;isocode[unique=true];name[lang=de];name[lang=en];active;base;conversion;digits;symbol
+#;USD;Dolar;Dolar;true;true;1;2;$
+
+#INSERT_UPDATE Title;code[unique=true];name[lang=de];name[lang=en];;
+#;dr;Dr.;dr.;;
+
+#INSERT_UPDATE Country;isocode[unique=true];name[lang=de];name[lang=en];active;
+#;US;Vereinigte Staaten von Amerika;United States of America;true;
+
+#INSERT_UPDATE UserGroup;uid[unique=true];groups(uid);
+#;customergroup;
+
+INSERT_UPDATE Customer;uid[unique=true];customerID;name;description;sessionLanguage(isocode);sessionCurrency(isocode);groups(uid);password;points;rewardStatusLevel(code)
+;customer1;customer1;Max de Jol;;en;USD;customergroup;1234;0;"BLUE"
+;customer2;customer2;Max de Jol;;en;USD;customergroup;1234;0;"BLUE"
+;customer3;customer3;Max de Jol;;en;USD;customergroup;1234;0;"BLUE"
+;customer4;customer4;Max de Jol;;en;USD;customergroup;1234;0;"GOLD"
+;customer5;customer5;Max de Jol;;en;USD;customergroup;1234;0;"GOLD"
+;customer6;customer6;Max de Jol;;en;USD;customergroup;1234;0;"GOLD"
+;customer7;customer7;Max de Jol;;en;USD;customergroup;1234;0;"BLUE"
+
+INSERT_UPDATE Catalog;id[unique=true];name[lang=de];name[lang=en];defaultCatalog;
+;bookstoreProductCatalog;Photo Catalog;Photo Catalog;true
+
+INSERT_UPDATE CatalogVersion; catalog(id)[unique=true]; version[unique=true];active;
+;bookstoreProductCatalog;Online;true;
+
+
+
+
+
+INSERT_UPDATE User; uid[unique=true];name;
+;Charlotte T. Bron;Charlotte T. Bron;
+;Dale Carnaby;Dale Carnaby;
+
+# Insert Books
+INSERT_UPDATE Book;code[unique=true];name;$supercategories;unit(code);$approved;$catalogVersion;rentable;rewardPoints;ISBN10;ISBN13;language;publisher;authors(uid);
+;101374242419;Withering Heights;;pieces;;;true;12;1013742419;3331013742419;$lang;hybris Classics Library;Charlotte T. Bron,Dale Carnaby
+;000000000001;Livro 1;;pieces;;;true;40;000000000001;000000000001;$lang;hybris Classics Library;Charlotte T. Bron,Dale Carnaby
+;000000000002;Livro 2;;pieces;;;true;15;000000000002;000000000002;$lang;hybris Classics Library;Charlotte T. Bron,Dale Carnaby
+
+
+INSERT_UPDATE Order;code[unique=true];date[dateformat=yyyy-MM-dd HH:mm:ss,forceWrite=true];net;currency(isocode);calculated;user(uid);store(uid)
+;orderRefcustomer1;2011-04-27 18:54:00;false;EUR;false;customer1;bookstore
+
+INSERT_UPDATE OrderEntry;order(Order.code)[unique=true];creationTime[dateformat=yyyy-MM-dd HH:mm:ss];product(code,$catalogVersion)[unique=true];quantity;unit(code)
+;orderRefcustomer1;2011-04-27 18:54:00;000000000001;1;pieces
+;orderRefcustomer1;2011-04-27 18:54:00;000000000002;2;pieces
+
+
+
+
+

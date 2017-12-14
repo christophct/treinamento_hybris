@@ -1,0 +1,100 @@
+$catalog-id=testCatalog
+$catalog-version=Online
+
+$testCategory0-id=testCategory0
+$testCategory1-id=testCategory1
+
+
+
+$catalogVersion=catalogversion(catalog(id[default='bookstoreProductCatalog']),version[default='Online'])[unique=true,default='bookstoreProductCatalog:Online']
+$supercategories=supercategories(code,catalogversion(catalog(id),version));
+$prices=europe1prices[translator=de.hybris.platform.europe1.jalo.impex.Europe1PricesTranslator]
+
+$approved=approvalstatus(code)[default='check']
+
+
+#$categories=target(code, $catalogversion)[unique=true]
+#$supercategories=source(code, $catalogversion)[unique=true]
+
+#INSERT_UPDATE Language;isocode[unique=true];active[default=true];name[lang=de];name[lang=en]
+#;en;;English;English
+
+#INSERT_UPDATE Unit;unitType[unique=true];code[unique=true];name[lang=de];name[lang=en];conversion;;;
+#;pieces;pieces;pieces;pieces;1
+
+#INSERT_UPDATE Currency;isocode[unique=true];name[lang=de];name[lang=en];active;base;conversion;digits;symbol
+#;USD;Dolar;Dolar;true;true;1;2;$
+
+#INSERT_UPDATE Title;code[unique=true];name[lang=de];name[lang=en];;
+#;dr;Dr.;dr.;;
+
+#INSERT_UPDATE Country;isocode[unique=true];name[lang=de];name[lang=en];active;
+#;US;Vereinigte Staaten von Amerika;United States of America;true;
+
+#INSERT_UPDATE UserGroup;uid[unique=true];groups(uid);
+#;customergroup;
+
+INSERT_UPDATE Customer;uid[unique=true];customerID;name;description;sessionLanguage(isocode);sessionCurrency(isocode);groups(uid);password
+;dejol;K2006-C0007;Max de Jol;;en;USD;customergroup;1234
+;dejol2;K2006-C0007;Max de Jol;;en;USD;customergroup;1234
+;dejol3;K2006-C0007;Max de Jol;;en;USD;customergroup;1234
+;dejol4;K2006-C0007;Max de Jol;;en;USD;customergroup;1234
+
+INSERT_UPDATE Catalog;id[unique=true];name[lang=de];name[lang=en];defaultCatalog;
+;bookstoreProductCatalog;Photo Catalog;Photo Catalog;true
+
+INSERT_UPDATE CatalogVersion; catalog(id)[unique=true]; version[unique=true];active;
+;bookstoreProductCatalog;Online;true;
+
+
+
+
+
+INSERT_UPDATE User; uid[unique=true];name;
+;Charlotte T. Bron;Charlotte T. Bron;
+;Dale Carnaby;Dale Carnaby;
+
+# Insert Books
+INSERT_UPDATE Book;code[unique=true];name;$supercategories;unit(code);$approved;$catalogVersion;rentable;rewardPoints;ISBN10;ISBN13;language;publisher;authors(uid);
+;101374242419;Withering Heights;;pieces;;;true;12;1013742419;3331013742419;$lang;hybris Classics Library;Charlotte T. Bron,Dale Carnaby
+;000000000001;Livro 1;;pieces;;;true;12;000000000001;000000000001;$lang;hybris Classics Library;Charlotte T. Bron,Dale Carnaby
+;000000000002;Livro 2;;pieces;;;true;12;000000000002;000000000002;$lang;hybris Classics Library;Charlotte T. Bron,Dale Carnaby
+;000000000003;Livro 3;;pieces;;;true;12;000000000003;000000000003;$lang;hybris Classics Library;Charlotte T. Bron,Dale Carnaby
+;000000000004;Livro 4;;pieces;;;true;12;000000000004;000000000004;$lang;hybris Classics Library;Charlotte T. Bron,Dale Carnaby
+;000000000005;Livro 5;;pieces;;;true;12;000000000005;000000000005;$lang;hybris Classics Library;Charlotte T. Bron,Dale Carnaby
+;000000000006;Livro 6;;pieces;;;true;12;000000000006;000000000006;$lang;hybris Classics Library;Charlotte T. Bron,Dale Carnaby
+;000000000007;Livro 7;;pieces;;;true;12;000000000007;000000000007;$lang;hybris Classics Library;Charlotte T. Bron,Dale Carnaby
+;000000000008;Livro 8;;pieces;;;true;12;000000000008;000000000008;$lang;hybris Classics Library;Charlotte T. Bron,Dale Carnaby
+;000000000009;Livro 9;;pieces;;;true;12;000000000009;000000000009;$lang;hybris Classics Library;Charlotte T. Bron,Dale Carnaby
+;000000000010;Livro 10;;pieces;;;true;12;000000000010;000000000010;$lang;hybris Classics Library;Charlotte T. Bron,Dale Carnaby
+;000000000011;Livro 11;;pieces;;;true;12;000000000011;000000000011;$lang;hybris Classics Library;Charlotte T. Bron,Dale Carnaby
+;000000000012;Livro 12;;pieces;;;true;12;000000000012;000000000012;$lang;hybris Classics Library;Charlotte T. Bron,Dale Carnaby
+;000000000013;Livro 13;;pieces;;;true;12;000000000013;000000000013;$lang;hybris Classics Library;Charlotte T. Bron,Dale Carnaby
+;000000000014;Livro 14;;pieces;;;true;12;000000000014;000000000014;$lang;hybris Classics Library;Charlotte T. Bron,Dale Carnaby
+
+
+
+INSERT_UPDATE Rental;rentalId[unique=true];startDate[dateformat='yyyy-MM-dd'];endDate[dateformat='yyyy-MM-dd'];customer(uid);product(code,$catalogVersion);
+;1;2017-12-01;2017-12-30;dejol;101374242419
+;2;2017-12-01;2017-12-10;dejol;101374242419
+;3;2017-12-01;2017-12-30;dejol;000000000001
+;4;2017-12-01;2017-12-10;dejol;000000000002
+;5;2017-12-01;2017-12-30;dejol;000000000003
+;6;2017-12-01;2017-12-10;dejol;000000000004
+;7;2017-12-01;2017-12-30;dejol;000000000005
+;8;2017-12-01;2017-12-10;dejol;000000000006
+;9;2017-12-01;2017-12-30;dejol2;000000000007
+;10;2017-12-01;2017-12-10;dejol2;000000000008
+;11;2017-12-01;2017-12-30;dejol3;000000000009
+;12;2017-12-01;2017-12-10;dejol4;000000000010
+;13;2017-12-01;2017-12-10;dejol2;101374242419
+;14;2017-12-01;2017-12-30;dejol2;000000000001
+;15;2017-12-01;2017-12-10;dejol2;000000000002
+;17;2017-12-01;2017-12-10;dejol2;000000000003
+;18;2017-12-01;2017-12-30;dejol2;000000000004
+;14;2017-12-01;2017-12-30;dejol3;000000000005
+
+
+
+
+

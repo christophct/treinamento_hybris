@@ -1,0 +1,33 @@
+# -----------------------------------------------------------------------
+# [y] hybris Platform
+#
+# Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+#
+# This software is the confidential and proprietary information of SAP
+# ("Confidential Information"). You shall not disclose such Confidential
+# Information and shall use it only in accordance with the terms of the
+# license agreement you entered into with SAP.
+# -----------------------------------------------------------------------
+#
+# Create Warehouses for Store
+#
+#% impex.setLocale( Locale.GERMAN );
+
+# Macros / Replacement Parameter definitions
+$storeUid=bookstore
+
+INSERT_UPDATE BaseStore2WarehouseRel;source(uid)[unique=true];target(code)[unique=true]
+;$storeUid;SaoPaulo
+;$storeUid;Recife
+
+INSERT_UPDATE PointOfService;name[unique=true];displayName;warehouses(code);address(&addrID);latitude;longitude;geocodeTimestamp[dateformat=dd.MM.yyyy];type(code)[default=WAREHOUSE]
+;SaoPaulo;Warehouse SaoPaulo;SaoPaulo;SaoPaulo;-23.5632054;-46.656439;11.12.2025
+;Recife;Warehouse Recife;Recife;Recife;-8.0903351;-34.9318009;11.12.2025
+
+INSERT_UPDATE Address;&addrID;streetnumber[unique=true];streetname;town;country(isocode);postalcode[unique=true];phone1;owner(PointOfService.name)[unique=true]
+;SaoPaulo;10 ;Av Paulista;Sao Paulo;BR;814-0001;+81 92-823-0236;SaoPaulo
+;Recife;10 ;Av Recife;Recife;BR;169-0075;+813 3201 8968;Recife
+
+INSERT_UPDATE BaseStore;uid[unique=true];defaultDeliveryOrigin(name)
+;$storeUid;Recife
+;$storeUid;SaoPaulo

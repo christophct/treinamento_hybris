@@ -1,0 +1,42 @@
+# -----------------------------------------------------------------------
+# [y] hybris Platform
+#
+# Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+#
+# This software is the confidential and proprietary information of SAP
+# ("Confidential Information"). You shall not disclose such Confidential
+# Information and shall use it only in accordance with the terms of the
+# license agreement you entered into with SAP.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Products
+
+# Macros / Replacement Parameter definitions
+$productCatalog=bookstoreProductCatalog
+$productCatalogName=bookstoreProductCatalog
+
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$supercategories=supercategories(code, $catalogVersion)
+$baseProduct=baseProduct(code,$catalogVersion)
+$approved=approvalstatus(code)[default='approved']
+
+# Insert Products
+INSERT_UPDATE Product;code[unique=true];$supercategories;manufacturerName;manufacturerAID;unit(code);ean;variantType(code);$catalogVersion;$approved
+
+
+INSERT_UPDATE User; uid[unique=true];name;
+;Charlotte T. Bron;Charlotte T. Bron;
+;Dale Carnaby;Dale Carnaby;
+;Tolkien;Tolkien;
+
+
+# Insert Books
+INSERT_UPDATE Book;code[unique=true];name;$supercategories;unit(code);$approved;$catalogVersion;rentable;rewardPoints;ISBN10;ISBN13;language;publisher;authors(uid)
+;101374242419;Withering Heights;101,304;pieces;;;true;12;1013742419;3331013742419;$lang;hybris Classics Library;Charlotte T. Bron,Dale Carnaby
+;10000001;Livro Senhor dos Aneis;103,302;pieces;;;true;12;10000001;1000000113;$lang;Livro Senhor dos Aneis;Tolkien
+;10000002;Batman;103,302;pieces;;;true;12;10000002;1000000213;$lang;Batman;Tolkien
+;10000003;Naruto;103,302;pieces;;;true;12;10000003;1000000313;$lang;Naruto;Tolkien
+;10000004;Hybris;207,302;pieces;;;true;12;10000004;1000000413;$lang;Hybris;Tolkien
+;10000005;Guerra dos tronos;103,302;pieces;;;true;40;10000005;1000000513;$lang;Guerra dos tronos;Tolkien
+;10000006;Justiceiro;103,302;pieces;;;true;40;10000006;1000000613;$lang;Justiceiro;Tolkien
+;10000007;Homem Aranha;103,302;pieces;;;true;40;10000007;1000000713;$lang;Homem Aranha;Tolkien
+;10000008;Star Wars;103,302;pieces;;;true;40;10000008;1000000813;$lang;HStar Wars;Tolkien

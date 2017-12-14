@@ -1,0 +1,71 @@
+# -----------------------------------------------------------------------
+# [y] hybris Platform
+#
+# Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+#
+# This software is the confidential and proprietary information of SAP
+# ("Confidential Information"). You shall not disclose such Confidential
+# Information and shall use it only in accordance with the terms of the
+# license agreement you entered into with SAP.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Category Classifications
+
+# Macros / Replacement Parameter definitions
+$productCatalog=bookstoreProductCatalog
+$productCatalogName=bookstoreProductCatalog
+$classificationCatalog=bookstoreClassificationCatalog
+
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$classCatalogVersion=catalogversion(catalog(id[default='$classificationCatalog']),version[default='1.0'])[unique=true,default='$classificationCatalog:1.0']
+$classSystemVersion=systemVersion(catalog(id[default='$classificationCatalog']),version[default='1.0'])[unique=true]
+$class=classificationClass(code,$classCatalogVersion)[unique=true]
+$supercategories=source(code, $classCatalogVersion)[unique=true]
+$categories_class=target(code, $classCatalogVersion)[unique=true]
+$categories=target(code, $catalogVersion)[unique=true]
+$attribute=classificationAttribute(code,$classSystemVersion)[unique=true]
+$unit=unit(code,$classSystemVersion)
+
+# Insert Classifications
+INSERT_UPDATE ClassificationClass;$classCatalogVersion;code[unique=true];allowedPrincipals(uid)[default='customergroup']
+;;1001
+;;1002
+;;1003
+
+# Insert Classification Attributes
+INSERT_UPDATE ClassificationAttribute;$classSystemVersion;code[unique=true];defaultAttributeValues(code,$classSystemVersion);
+;;pages, 1;
+;;DRM, 2;
+;;filesize, 3;
+;;deliveryFormat, 4;MP3,MP4,PDF
+;;Length, 5;
+
+
+
+
+
+# Links ClassificationClasses to Categories
+INSERT_UPDATE CategoryCategoryRelation;$categories;$supercategories
+;301;1001
+;302;1001
+;302;1001
+;301;1001
+
+# Links ClassificationClasses to Classifications
+INSERT_UPDATE CategoryCategoryRelation;$categories_class;$supercategories
+;1003;1002
+
+
+
+INSERT_UPDATE ClassAttributeAssignment;$class;$attribute;position;$unit;attributeType(code[default=string]);multiValued;range;localized; 
+;1001;pages, 1;;;number;false;false;false;;
+;1002;DRM, 2;0;;string;false;false;false;
+;1002;filesize, 3;191;19;number;false;false;false;
+;1002;deliveryFormat, 4;1001;format;enum;false;false;false;
+;1003;Length, 5;;1002;string;false;false;false;
+
+
+
+
+
+INSERT_UPDATE AttributeValueAssignment;&Item;attribute(&Item);attributeAssignment(classificationAttribute(code,systemVersion(catalog(id),version)),systemVersion(catalog(id),version),classificationClass(catalogVersion(catalog(id),version),code))[forceWrite=true,unique=true];externalID;position;systemVersion(catalog(id),version);value(code,systemVersion(catalog(id),version))[forceWrite=true,allownull=true,unique=true]
+

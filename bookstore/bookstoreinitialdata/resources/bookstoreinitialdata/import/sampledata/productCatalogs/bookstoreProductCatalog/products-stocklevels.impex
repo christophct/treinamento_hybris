@@ -1,0 +1,56 @@
+# -----------------------------------------------------------------------
+# [y] hybris Platform
+#
+# Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+#
+# This software is the confidential and proprietary information of SAP
+# ("Confidential Information"). You shall not disclose such Confidential
+# Information and shall use it only in accordance with the terms of the
+# license agreement you entered into with SAP.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Products Stock Levels and Warehouses
+
+# Macros / Replacement Parameter definitions
+$productCatalog=bookstoreProductCatalog
+$productCatalogName=bookstoreProductCatalog
+$vendor=default
+
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+
+
+INSERT_UPDATE Vendor;code[unique=true]
+#bookstore
+
+INSERT_UPDATE Warehouse;code[unique=true];vendor(code);default[default=true]
+;SaoPaulo;$vendor;
+;Recife;$vendor;
+
+
+INSERT_UPDATE StockLevel;available;warehouse(code)[unique=true];inStockStatus(code);maxPreOrder;maxStockLevelHistoryCount;overSelling;preOrder;productCode[unique=true];reserved
+;42;SaoPaulo;notSpecified;0;0;0;0;10000001;0
+;14;Recife;notSpecified;0;0;0;0;10000001;0
+;7;SaoPaulo;notSpecified;1;0;0;0;10000002;0
+;11;Recife;notSpecified;1;0;0;0;10000002;0
+;29;SaoPaulo;notSpecified;1;0;0;0;10000003;0
+;31;Recife;notSpecified;1;0;0;0;10000003;0
+;42;SaoPaulo;notSpecified;0;0;0;0;10000004;0
+;14;Recife;notSpecified;0;0;0;0;10000004;0
+;7;SaoPaulo;notSpecified;1;0;0;0;10000005;0
+;11;Recife;notSpecified;1;0;0;0;10000005;0
+;29;SaoPaulo;notSpecified;1;0;0;0;10000006;0
+;31;Recife;notSpecified;1;0;0;0;10000006;0
+;42;SaoPaulo;notSpecified;0;0;0;0;10000007;0
+;14;Recife;notSpecified;0;0;0;0;10000007;0
+;7;SaoPaulo;notSpecified;1;0;0;0;10000008;0
+;11;Recife;notSpecified;1;0;0;0;10000008;0
+
+
+UPDATE Product;code[unique=true];$catalogVersion;stockLevels(productCode,warehouse(code));vendors(code)
+;10000001;;10000001:SaoPaulo;
+;10000002;;10000002:Recife;
+;10000003;;10000003:SaoPaulo;
+;10000004;;10000004:Recife;
+;10000005;;10000005:SaoPaulo;
+;10000006;;10000006:SaoPaulo;
+;10000007;;10000007:Recife;
+;10000008;;10000008:SaoPaulo;

@@ -1,0 +1,32 @@
+# -----------------------------------------------------------------------
+# [y] hybris Platform
+#
+# Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+#
+# This software is the confidential and proprietary information of SAP
+# ("Confidential Information"). You shall not disclose such Confidential
+# Information and shall use it only in accordance with the terms of the
+# license agreement you entered into with SAP.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Product Classifications
+
+#% impex.setLocale(Locale.ENGLISH);
+
+# Macros / Replacement Parameter definitions$productCatalog=bookstoreProductCatalog
+$productCatalogName=bookstoreProductCatalog
+$classificationCatalog=bookstoreClassificationCatalog
+
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$clAttrModifiers=system='$classificationCatalog',version='1.0',translator=de.hybris.platform.catalog.jalo.classification.impex.ClassificationAttributeTranslator
+
+# Insert Product Classifications
+
+
+
+# Classification: Book system
+$feature1=@DRM, 2[$clAttrModifiers];  # Fixed focal length in millimeter (mm)
+$feature2=@filesize, 3[$clAttrModifiers];  # Focus adjustment
+$feature3=@deliveryFormat, 4[$clAttrModifiers];  # Aperture range
+$feature4=@Length, 5[$clAttrModifiers];  # Thread diameter in millimeter (mm)
+INSERT_UPDATE Product;code[unique=true];$feature1;$feature2;$feature3;$feature4;$catalogVersion;
+;101374242419;8675210DRM;4;MP3;2:00:00;

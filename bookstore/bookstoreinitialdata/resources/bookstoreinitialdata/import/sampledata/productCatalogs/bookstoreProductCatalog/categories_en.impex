@@ -1,0 +1,44 @@
+# -----------------------------------------------------------------------
+# [y] hybris Platform
+#
+# Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+#
+# This software is the confidential and proprietary information of SAP
+# ("Confidential Information"). You shall not disclose such Confidential
+# Information and shall use it only in accordance with the terms of the
+# license agreement you entered into with SAP.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Categories
+
+# Macros / Replacement Parameter definitions
+$productCatalog=bookstoreProductCatalog
+$productCatalogName=bookstoreProductCatalog
+
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+
+# Language
+$lang=en
+
+# Create Categories
+UPDATE Category;code[unique=true];$catalogVersion;name[lang=$lang]
+ ;1;;fiction;
+ ;2;;nonfiction;
+ ;101;;drama;
+ ;102;;crime;
+ ;103;;fantasy;
+ ;104;;horror;
+ ;105;;romance;
+ ;106;;comedy;
+ ;107;;thriller;
+ ;108;;sciencefiction;
+ ;201;;autobiography;
+ ;202;;dictionary;
+ ;203;;encyclopedia;
+ ;204;;history;
+ ;205;;philosophy;
+ ;206;;self-help;
+ ;207;;computerscience;
+ ;301;;paperback;
+ ;302;;hardcover;
+ ;303;;kindle;
+ ;304;;audioCD;

@@ -1,0 +1,61 @@
+# -----------------------------------------------------------------------
+# [y] hybris Platform
+#
+# Copyright (c) 2017 SAP SE or an SAP affiliate company.  All rights reserved.
+#
+# This software is the confidential and proprietary information of SAP
+# ("Confidential Information"). You shall not disclose such Confidential
+# Information and shall use it only in accordance with the terms of the
+# license agreement you entered into with SAP.
+# -----------------------------------------------------------------------
+# ImpEx for Importing Categories
+
+# Macros / Replacement Parameter definitions
+$productCatalog=bookstoreProductCatalog
+$productCatalogName=bookstoreProductCatalog
+
+$catalogVersion=catalogversion(catalog(id[default=$productCatalog]),version[default='Staged'])[unique=true,default=$productCatalog:Staged]
+$supercategories=source(code, $catalogVersion)[unique=true]
+$categories=target(code, $catalogVersion)[unique=true]
+
+# Insert Categories
+INSERT_UPDATE Category;code[unique=true];allowedPrincipals(uid)[default='customergroup'];$catalogVersion
+ ;1
+ ;2
+ ;101
+ ;102
+ ;103
+ ;104
+ ;105
+ ;106
+ ;107
+ ;108
+ ;201
+ ;202
+ ;203
+ ;204
+ ;205
+ ;206
+ ;207
+ ;301
+ ;302
+ ;303
+ ;304
+
+# Insert Category Structure
+INSERT_UPDATE CategoryCategoryRelation;$categories;$supercategories
+ ;101;1
+ ;102;1
+ ;103;1
+ ;104;1
+ ;105;1
+ ;106;1
+ ;107;1
+ ;108;1
+ ;201;2
+ ;202;2
+ ;203;2
+ ;204;2
+ ;205;2
+ ;206;2
+ ;207;2
